@@ -1,11 +1,25 @@
 from PySide6.QtWidgets import QLineEdit, QPushButton, QWidget, QHBoxLayout
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QCursor
-from utilities import getWeather
+from utilities import getLocation, LocationResponse
+from typing import Callable, TypedDict
+import time
+
+Loc = TypedDict("Loc", {"lat": str, "lon": str})
+
 
 class SearchBar(QWidget):
-    def __init__(self):
+    def __init__(
+        self,
+        handleOnSearch: Callable[[LocationResponse | None], None],
+        setTitle: Callable[[str], None],
+        resetItems: Callable[[], None],
+    ):
         super().__init__()
+
+        self._handleOnSearch = handleOnSearch
+        self._setTitle = setTitle
+        self._resetItems = resetItems
 
         searchButton = QPushButton("Search")
         searchButton.setFixedSize(90, 50)
@@ -37,7 +51,7 @@ class SearchBar(QWidget):
         searchInput.setStyleSheet(
             """color: #fff;border: 2px solid #455a64;border-right: 0;border-radius: 0px; border-top-left-radius: 12px;border-bottom-left-radius: 12px; """
         )
-        searchInput.setPlaceholderText("Enter Country, State, City ...")
+        searchInput.setPlaceholderText("Enter Your City Name")
         self._searchInput = searchInput
 
         layout = QHBoxLayout()
@@ -46,6 +60,7 @@ class SearchBar(QWidget):
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 30, 0)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.setFixedHeight(200)
 
         self.setLayout(layout)
 
@@ -53,5 +68,11 @@ class SearchBar(QWidget):
         searchText = self._searchInput.text()
         if searchText:
             self._searchButton.setDisabled(True)
-            getWeather(searchText)
+            self._searchButton.repaint()
+            self._setTitle("Retrieving Location Data ...")
+            self._resetItems()
+            locationResponse = getLocation(searchText)
+            self._handleOnSearch(locationResponse)
             self._searchButton.setDisabled(False)
+            self._searchButton.repaint()
+            self._searchInput.setText("")
