@@ -68,7 +68,7 @@ class SearchBar(QWidget):
         if searchText:
             self._searchButton.setDisabled(True)
             self._searchButton.repaint()
-            self._setTitle("Retrieving Location Data ...")
+            self._setTitle("getting Location Data ...")
             self._resetItems()
             locationResponse = getLocation(searchText)
             self._handleOnSearch(locationResponse)

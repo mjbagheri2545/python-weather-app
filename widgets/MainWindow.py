@@ -35,11 +35,11 @@ class MainWindow(QMainWindow):
     def _handleOnSearch(self, locationResponse: LocationResponse):
         if isinstance(locationResponse, Exception):
             self._mainContent.setTitle(
-                "Location Not Found Or Maybe An Error Occurred During Retrieving Location Data"
+                "Location Not Found Or Maybe An Error Occurred During getting Location Data"
             )
         else:
             self._mainContent.setTitle(
-                "Retrieving Weather Data ..."
+                "getting Weather Data ..."
             )
             weatherResponse = getWeather(locationResponse["location"])
             self._handleWeatherResponse(weatherResponse, locationResponse)
@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
     ):
         if isinstance(weatherResponse, Exception):
             self._mainContent.setTitle(
-                "An Error Occurred During Retrieving Weather Data"
+                "An Error Occurred During getting Weather Data"
             )
         else:
             self._mainContent.setTitle(f"{locationData["name"]}, {locationData['country']}")
