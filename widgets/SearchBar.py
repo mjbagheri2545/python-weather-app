@@ -3,7 +3,6 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QCursor
 from utilities import getLocation, LocationResponse
 from typing import Callable, TypedDict
-import time
 
 Loc = TypedDict("Loc", {"lat": str, "lon": str})
 

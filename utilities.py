@@ -9,10 +9,10 @@ APP_ID = os.getenv("OPEN_WEATHER_MAP_APP_ID")
 print(APP_ID)
 
 Location = TypedDict("Location", {"lat": float, "lon": float})
-LocationResponseData = TypedDict(
-    "LocationResponseData", {"country": str, "name": str, "location": Location}
+LocationData = TypedDict(
+    "LocationData", {"country": str, "name": str, "location": Location}
 )
-LocationResponse = LocationResponseData | Exception
+LocationResponse = LocationData | Exception
 
 
 def getLocation(cityName: str) -> LocationResponse:
@@ -30,8 +30,8 @@ def getLocation(cityName: str) -> LocationResponse:
         return e
 
 
-WeatherResponseData = TypedDict(
-    "WeatherResponseData",
+WeatherData = TypedDict(
+    "WeatherData",
     {
         "description": str,
         "temperature": float,
@@ -42,7 +42,7 @@ WeatherResponseData = TypedDict(
     },
 )
 
-WeatherResponse = WeatherResponseData | Exception
+WeatherResponse = WeatherData | Exception
 
 
 def getWeather(location: Location) -> WeatherResponse:
@@ -64,37 +64,4 @@ def getWeather(location: Location) -> WeatherResponse:
         }
     except Exception as e:
         return e
-    
-
-# T = TypeVar("T")
-
-# WeatherDataItem = TypedDict("WeatherDataItem", {"title": str, "unit": str, "value": T})
-
-# WeatherData = TypedDict(
-#     "WeatherData",
-#     {
-#         "description": WeatherDataItem[str],
-#         "temperature": WeatherDataItem[float],
-#         "minTemperature": WeatherDataItem[float],
-#         "maxTemperature": WeatherDataItem[float],
-#         "humidity": WeatherDataItem[int],
-#         "windSpeed": WeatherDataItem[float],
-#     },
-# )
-
-# UNITS = {
-# "temperature": " Celsius",
-# "minTemperature": " Celsius",
-# "maxTemperature": " Celsius",
-# "humidity": "%",
-# "windSpeed": " m/s",
-# }
-    
-# def parseWeatherResponse(weatherResponseData: WeatherResponseData) -> WeatherData:
-#     parsedData = {key: {"title": camelCaseToTitleCase(key), "value": f"{value}{UNITS.get(key,"")}"} for key, value in weatherResponseData.items()}
-
-#     return cast(WeatherData,parsedData)
-
-# def camelCaseToTitleCase(camelCase: str) -> str:
-#     return "".join(f" {ch}" if ch.upper() == ch else ch for ch in camelCase).capitalize()
 

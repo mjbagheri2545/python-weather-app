@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout
 from PySide6.QtCore import Qt
-from utilities import WeatherResponseData
+from utilities import WeatherData
 from widgets.Item import Item
 from typing import cast
 
@@ -49,8 +49,8 @@ class MainContent(QWidget):
         self._label.setText(title)
         self._label.repaint()
 
-    def setItems(self, weatherResponseData: WeatherResponseData):
-        for index, (key, value) in enumerate(weatherResponseData.items()):
+    def setItems(self, weatherData: WeatherData):
+        for index, (key, value) in enumerate(weatherData.items()):
             item = self._getItemLabel(index)
             item.setText(f"{value}{UNITS[key]}")
             item.repaint()

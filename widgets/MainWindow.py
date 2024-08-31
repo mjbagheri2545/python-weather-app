@@ -2,10 +2,9 @@ from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QLabel
 from PySide6.QtCore import QSize
 from widgets.SearchBar import SearchBar
 from widgets.MainContent import MainContent
-from typing import cast
 from utilities import (
     LocationResponse,
-    LocationResponseData,
+    LocationData,
     getWeather,
     WeatherResponse,
 )
@@ -46,12 +45,12 @@ class MainWindow(QMainWindow):
             self._handleWeatherResponse(weatherResponse, locationResponse)
 
     def _handleWeatherResponse(
-        self, weatherResponse: WeatherResponse, locationResponseData: LocationResponseData
+        self, weatherResponse: WeatherResponse, locationData: LocationData
     ):
         if isinstance(weatherResponse, Exception):
             self._mainContent.setTitle(
                 "An Error Occurred During Retrieving Weather Data"
             )
         else:
-            self._mainContent.setTitle(f"{locationResponseData["name"]}, {locationResponseData['country']}")
+            self._mainContent.setTitle(f"{locationData["name"]}, {locationData['country']}")
             self._mainContent.setItems(weatherResponse)
