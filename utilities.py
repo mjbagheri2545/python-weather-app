@@ -6,7 +6,6 @@ import os
 load_dotenv()
 
 APP_ID = os.getenv("OPEN_WEATHER_MAP_APP_ID")
-print(APP_ID)
 
 Location = TypedDict("Location", {"lat": float, "lon": float})
 LocationData = TypedDict(
